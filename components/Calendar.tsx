@@ -38,6 +38,10 @@ export default function Calendar() {
     }
   };
 
+  const clearSelection = () => {
+    setSelectedRange({ start: null, end: null });
+  };
+
   const calendarDays = generateCalendarDays(currentDate);
 
   return (
@@ -67,9 +71,38 @@ export default function Calendar() {
       />
 
       {selectedRange.start && (
-        <div className="mt-4 p-3 bg-gray-100 rounded text-sm">
-          <strong>Selected:</strong> {selectedRange.start.toDateString()}
-          {selectedRange.end && ` to ${selectedRange.end.toDateString()}`}
+        <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-semibold text-gray-700 mb-1">
+                Selected Range:
+              </p>
+              <p className="text-gray-800">
+                {selectedRange.start.toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+                {selectedRange.end && (
+                  <>
+                    {" "}
+                    →{" "}
+                    {selectedRange.end.toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </>
+                )}
+              </p>
+            </div>
+            <button
+              onClick={clearSelection}
+              className="px-3 py-1 cursor-pointer text-sm bg-white border border-gray-300 rounded hover:bg-gray-50 transition"
+            >
+              Clear
+            </button>
+          </div>
         </div>
       )}
     </div>
