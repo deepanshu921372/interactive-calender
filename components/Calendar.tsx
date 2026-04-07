@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { generateCalendarDays } from "@/lib/calendar-utils";
 import { DAYS_OF_WEEK } from "@/lib/constants";
 import { DateRange, Note } from "@/lib/types";
+import { saveNotes, loadNotes } from "@/lib/storage";
 import CalendarHeader from "./CalendarHeader";
 import CalendarGrid from "./CalendarGrid";
 import NotesSection from "./NotesSection";
@@ -15,6 +16,17 @@ export default function Calendar() {
     end: null,
   });
   const [notes, setNotes] = useState<Note[]>([]);
+
+  useEffect(() => {
+    const loaded = loadNotes();
+    setNotes(loaded);
+  }, []);
+
+  useEffect(() => {
+    if (notes.length >= 0) {
+      saveNotes(notes);
+    }
+  }, [notes]);
 
   const changeMonth = (delta: number) => {
     const newDate = new Date(currentDate);
@@ -54,11 +66,11 @@ export default function Calendar() {
     setNotes([newNote, ...notes]);
   };
 
-  const calendarDays = generateCalendarDays(currentDate);
-
   const deleteNote = (id: string) => {
     setNotes(notes.filter((note) => note.id !== id));
   };
+
+  const calendarDays = generateCalendarDays(currentDate);
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-6">
