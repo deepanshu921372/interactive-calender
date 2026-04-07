@@ -13,23 +13,49 @@ export default function CalendarHeader({
     <div className="flex items-center justify-between mb-6">
       <button
         onClick={onPreviousMonth}
-        className="px-4 py-2 cursor-pointer bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+        className="p-2 hover:bg-gray-100 rounded transition cursor-pointer"
+        aria-label="Previous month"
       >
-        Previous
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
       </button>
 
-      <h2 className="text-2xl font-bold">
-        {currentDate.toLocaleDateString("en-US", {
-          month: "long",
-          year: "numeric",
-        })}
-      </h2>
+      <div className="text-center">
+        <div className="text-2xl font-bold text-gray-800">
+          {currentDate.toLocaleDateString("en-US", { month: "long" })}
+        </div>
+        <div className="text-sm text-gray-500">{currentDate.getFullYear()}</div>
+      </div>
 
       <button
         onClick={onNextMonth}
-        className="px-4 py-2 cursor-pointer bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+        className="p-2 hover:bg-gray-100 rounded transition cursor-pointer"
+        aria-label="Next month"
       >
-        Next
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M9 5l7 7-7 7"
+          />
+        </svg>
       </button>
     </div>
   );

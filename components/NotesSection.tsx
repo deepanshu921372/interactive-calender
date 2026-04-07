@@ -61,7 +61,7 @@ export default function NotesSection({
         value={noteText}
         onChange={(e) => setNoteText(e.target.value)}
         placeholder="Write a note..."
-        className="w-full p-2 border border-gray-300 rounded text-xs resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2"
+        className="w-full p-2 border border-gray-300 rounded text-xs resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2 cursor-text"
         rows={2}
         onKeyDown={(e) => {
           if (e.key === "Enter" && e.metaKey) {
@@ -85,7 +85,8 @@ export default function NotesSection({
       <button
         onClick={handleSubmit}
         disabled={!noteText.trim()}
-        className="w-full py-1.5 bg-blue-600 text-white text-xs font-semibold rounded hover:bg-blue-700 transition disabled:bg-gray-300"
+        className="w-full py-1.5 bg-blue-600 text-white text-xs font-semibold rounded hover:bg-blue-700 transition disabled:bg-gray-300                    
+  disabled:cursor-not-allowed cursor-pointer"
       >
         ADD NOTE
       </button>
@@ -93,7 +94,7 @@ export default function NotesSection({
       {selectedRange.start && (
         <button
           onClick={onClearSelection}
-          className="w-full mt-1.5 py-1 text-[10px] text-gray-500 underline hover:text-gray-700"
+          className="w-full mt-1.5 py-1 text-[10px] text-gray-500 underline hover:text-gray-700 cursor-pointer"
         >
           Clear Selection
         </button>
@@ -118,7 +119,8 @@ export default function NotesSection({
               )}
               <button
                 onClick={() => onDeleteNote(note.id)}
-                className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 text-red-500 hover:text-red-700 font-bold text-sm"
+                className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 text-red-500 hover:text-red-700 font-bold text-sm cursor-pointer       
+  transition"
               >
                 ×
               </button>

@@ -17,6 +17,7 @@ export default function Calendar() {
     end: null,
   });
   const [notes, setNotes] = useState<Note[]>([]);
+  const [isFlipping, setIsFlipping] = useState(false);
 
   useEffect(() => {
     const loaded = loadNotes();
@@ -28,9 +29,16 @@ export default function Calendar() {
   }, [notes]);
 
   const changeMonth = (delta: number) => {
-    const newDate = new Date(currentDate);
-    newDate.setMonth(newDate.getMonth() + delta);
-    setCurrentDate(newDate);
+    if (isFlipping) return;
+
+    setIsFlipping(true);
+
+    setTimeout(() => {
+      const newDate = new Date(currentDate);
+      newDate.setMonth(newDate.getMonth() + delta);
+      setCurrentDate(newDate);
+      setIsFlipping(false);
+    }, 400);
   };
 
   const handleDateClick = (day: number) => {
@@ -72,7 +80,11 @@ export default function Calendar() {
   const calendarDays = generateCalendarDays(currentDate);
 
   return (
-    <div className="bg-white rounded-lg shadow-2xl overflow-hidden max-w-4xl w-full h-[calc(100vh-4rem)] flex flex-col">
+    <div
+      className={`bg-white rounded-lg shadow-2xl overflow-hidden max-w-4xl w-full h-[calc(100vh-4rem)] flex flex-col ${
+        isFlipping ? "cal-flip-exit" : "cal-flip-enter"
+      }`}
+    >
       <SpiralBinding />
 
       <HeroSection currentDate={currentDate} />
@@ -89,10 +101,13 @@ export default function Calendar() {
         </div>
 
         <div className="flex-1 p-4 md:p-6 overflow-y-auto">
+          {/* Month Navigation */}
           <div className="flex items-center justify-between mb-6">
             <button
               onClick={() => changeMonth(-1)}
-              className="p-2 hover:bg-gray-100 rounded transition"
+              disabled={isFlipping}
+              className="p-2 hover:bg-gray-100 rounded transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              aria-label="Previous month"
             >
               <svg
                 className="w-5 h-5"
@@ -120,7 +135,9 @@ export default function Calendar() {
 
             <button
               onClick={() => changeMonth(1)}
-              className="p-2 hover:bg-gray-100 rounded transition"
+              disabled={isFlipping}
+              className="p-2 hover:bg-gray-100 rounded transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              aria-label="Next month"
             >
               <svg
                 className="w-5 h-5"
@@ -164,7 +181,7 @@ export default function Calendar() {
               <span>Today</span>
             </div>
             <div className="flex items-center gap-1">
-              <div className="w-4 h-4 bg-blue-500 rounded" />
+              <div className="w-4 h-4 bg-blue-600 rounded" />
               <span>Selected</span>
             </div>
             <div className="flex items-center gap-1">
