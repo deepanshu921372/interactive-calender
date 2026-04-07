@@ -62,6 +62,7 @@ export default function Calendar() {
       <CalendarGrid
         calendarDays={calendarDays}
         currentDate={currentDate}
+        selectedRange={selectedRange}
         onDateClick={handleDateClick}
       />
 
