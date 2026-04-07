@@ -53,3 +53,23 @@ export const isDateInRange = (
 
   return date >= start && date <= end;
 };
+
+export const isStartDate = (
+  day: number | null,
+  currentDate: Date,
+  selectedRange: { start: Date | null; end: Date | null },
+): boolean => {
+  if (!day || !selectedRange.start) return false;
+  const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+  return date.getTime() === selectedRange.start.getTime();
+};
+
+export const isEndDate = (
+  day: number | null,
+  currentDate: Date,
+  selectedRange: { start: Date | null; end: Date | null },
+): boolean => {
+  if (!day || !selectedRange.end) return false;
+  const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+  return date.getTime() === selectedRange.end.getTime();
+};

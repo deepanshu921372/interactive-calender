@@ -13,7 +13,7 @@ export default function CalendarHeader({
     <div className="flex items-center justify-between mb-6">
       <button
         onClick={onPreviousMonth}
-        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+        className="px-4 py-2 cursor-pointer bg-blue-500 text-white rounded hover:bg-blue-600 transition"
       >
         Previous
       </button>
@@ -27,7 +27,7 @@ export default function CalendarHeader({
 
       <button
         onClick={onNextMonth}
-        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+        className="px-4 py-2 cursor-pointer bg-blue-500 text-white rounded hover:bg-blue-600 transition"
       >
         Next
       </button>
