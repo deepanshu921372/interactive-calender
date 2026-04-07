@@ -56,6 +56,10 @@ export default function Calendar() {
 
   const calendarDays = generateCalendarDays(currentDate);
 
+  const deleteNote = (id: string) => {
+    setNotes(notes.filter((note) => note.id !== id));
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-lg p-6">
       <CalendarHeader
@@ -118,7 +122,11 @@ export default function Calendar() {
         </div>
       )}
 
-      <NotesSection notes={notes} onAddNote={addNote} />
+      <NotesSection
+        notes={notes}
+        onAddNote={addNote}
+        onDeleteNote={deleteNote}
+      />
     </div>
   );
 }

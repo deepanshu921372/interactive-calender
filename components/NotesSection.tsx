@@ -4,9 +4,14 @@ import { Note } from "@/lib/types";
 interface NotesSectionProps {
   notes: Note[];
   onAddNote: (text: string) => void;
+  onDeleteNote: (id: string) => void;
 }
 
-export default function NotesSection({ notes, onAddNote }: NotesSectionProps) {
+export default function NotesSection({
+  notes,
+  onAddNote,
+  onDeleteNote,
+}: NotesSectionProps) {
   const [noteText, setNoteText] = useState("");
 
   const handleSubmit = () => {
@@ -71,14 +76,25 @@ export default function NotesSection({ notes, onAddNote }: NotesSectionProps) {
           notes.map((note) => (
             <div
               key={note.id}
-              className="p-3 bg-white rounded border border-gray-200"
+              className="p-3 bg-white rounded border border-gray-200 group hover:border-gray-300 transition"
             >
-              <p className="text-gray-800 mb-1">{note.text}</p>
-              {note.dateRange?.start && (
-                <p className="text-xs text-blue-600 font-medium">
-                  📅 {formatDateRange(note)}
-                </p>
-              )}
+              <div className="flex justify-between items-start gap-2">
+                <div className="flex-1">
+                  <p className="text-gray-800 mb-1">{note.text}</p>
+                  {note.dateRange?.start && (
+                    <p className="text-xs text-blue-600 font-medium">
+                      📅 {formatDateRange(note)}
+                    </p>
+                  )}
+                </div>
+                <button
+                  onClick={() => onDeleteNote(note.id)}
+                  className="opacity-0 group-hover:opacity-100 cursor-pointer transition text-red-500 hover:text-red-700 font-bold text-lg"
+                  title="Delete note"
+                >
+                  ×
+                </button>
+              </div>
             </div>
           ))
         )}
