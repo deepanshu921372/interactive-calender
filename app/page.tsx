@@ -1,8 +1,11 @@
-export default function Home() {                                                                                                                           
-  return (                                                                                                                                                 
-    <main className="min-h-screen p-8">                                                                                                                    
-      <h1 className="text-3xl font-bold">Interactive Calendar</h1>                                                                                         
-      <p className="mt-4 text-gray-600">Building something cool...</p>                                                                                     
-    </main>                                                                                                                                                
-  );                                                                                                                                                       
-}  
+import Calendar from '@/components/Calendar';                                                                                                                               
+                                                                                                                                                                              
+  export default function Home() {                                                                                                                                            
+    return (                                                                                                                                                                  
+      <main className="min-h-screen p-8 bg-gradient-to-br from-blue-50 to-indigo-100">                                                                                        
+        <div className="max-w-4xl mx-auto">                                                                                                                                   
+          <Calendar />                                                                                                                                                        
+        </div>                                                                                                                                                                
+      </main>                                                                                                                                                                 
+    );                                                                                                                                                                        
+  }   
