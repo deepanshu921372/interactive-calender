@@ -27,18 +27,22 @@ export default function CalendarGrid({
         const isStart = isStartDate(day, currentDate, selectedRange);
         const isEnd = isEndDate(day, currentDate, selectedRange);
 
+        const isWeekend = index % 7 >= 5;
+
         return (
           <div
             key={index}
             onClick={() => day && onDateClick?.(day)}
-            className={`                                                                                                                                                    
-                aspect-square flex items-center justify-center                                                                                                                
-                border rounded-lg p-2 transition-colors                                                                                                                       
-                ${day ? "hover:bg-blue-50 cursor-pointer border-gray-200" : "border-transparent"}                                                                             
-                ${day ? "text-gray-800 font-medium" : ""}                                                                                                                     
-                ${isTodayDate && !inRange ? "ring-2 ring-blue-500 ring-inset" : ""}                                                                                           
-                ${inRange && !isStart && !isEnd ? "bg-blue-100 border-blue-300" : ""}                                                                                         
-                ${isStart || isEnd ? "bg-blue-500 text-white border-blue-600 font-bold hover:bg-blue-600" : ""}                                                               
+            className={`                                                                                                                                   
+                aspect-square flex items-center justify-center                                                                                               
+                rounded transition-all text-sm                                                                                                               
+                ${day ? "cursor-pointer hover:bg-gray-50" : ""}                                                                                              
+                ${day && !inRange ? "text-gray-700" : ""}                                                                                                    
+                ${day && isWeekend && !inRange ? "text-blue-600 font-semibold" : ""}                                                                         
+                ${isTodayDate && !inRange ? "ring-2 ring-blue-500 ring-inset" : ""}                                                                          
+                ${inRange && !isStart && !isEnd ? "bg-blue-50 text-gray-800" : ""}                                                                           
+                ${isStart || isEnd ? "bg-blue-600 text-white font-bold" : ""}                                                                                
+                ${!day ? "text-gray-300" : ""}                                                                                                               
               `}
           >
             {day || ""}
