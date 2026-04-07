@@ -3,17 +3,20 @@ import { isToday } from "@/lib/calendar-utils";
 interface CalendarGridProps {
   calendarDays: (number | null)[];
   currentDate: Date;
+  onDateClick?: (day: number) => void;
 }
 
 export default function CalendarGrid({
   calendarDays,
   currentDate,
+  onDateClick,
 }: CalendarGridProps) {
   return (
     <div className="grid grid-cols-7 gap-2">
       {calendarDays.map((day, index) => (
         <div
           key={index}
+          onClick={() => day && onDateClick?.(day)}
           className={`                                                                                                                                                      
               aspect-square flex items-center justify-center                                                                                                                  
               border rounded-lg p-2 transition-colors                                                                                                                         

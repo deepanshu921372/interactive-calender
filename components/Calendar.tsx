@@ -20,6 +20,24 @@ export default function Calendar() {
     setCurrentDate(newDate);
   };
 
+  const handleDateClick = (day: number) => {
+    const clickedDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      day,
+    );
+
+    if (!selectedRange.start || (selectedRange.start && selectedRange.end)) {
+      setSelectedRange({ start: clickedDate, end: null });
+    } else {
+      if (clickedDate < selectedRange.start) {
+        setSelectedRange({ start: clickedDate, end: selectedRange.start });
+      } else {
+        setSelectedRange({ ...selectedRange, end: clickedDate });
+      }
+    }
+  };
+
   const calendarDays = generateCalendarDays(currentDate);
 
   return (
@@ -30,7 +48,6 @@ export default function Calendar() {
         onNextMonth={() => changeMonth(1)}
       />
 
-      {/* Days of week header */}
       <div className="grid grid-cols-7 gap-2 mb-2">
         {DAYS_OF_WEEK.map((day) => (
           <div
@@ -42,9 +59,12 @@ export default function Calendar() {
         ))}
       </div>
 
-      <CalendarGrid calendarDays={calendarDays} currentDate={currentDate} />
+      <CalendarGrid
+        calendarDays={calendarDays}
+        currentDate={currentDate}
+        onDateClick={handleDateClick}
+      />
 
-      {/* Debug: Show selected range */}
       {selectedRange.start && (
         <div className="mt-4 p-3 bg-gray-100 rounded text-sm">
           <strong>Selected:</strong> {selectedRange.start.toDateString()}
