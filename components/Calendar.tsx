@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { generateCalendarDays } from "@/lib/calendar-utils";
-import { DAYS_OF_WEEK } from "@/lib/constants";
+import { DAYS_OF_WEEK, MONTH_NAMES } from "@/lib/constants";
 import { DateRange, Note } from "@/lib/types";
 import { saveNotes, loadNotes } from "@/lib/storage";
-import CalendarHeader from "./CalendarHeader";
+import SpiralBinding from "./SpiralBinding";
+import HeroSection from "./HeroSection";
 import CalendarGrid from "./CalendarGrid";
 import NotesSection from "./NotesSection";
 
@@ -23,9 +24,7 @@ export default function Calendar() {
   }, []);
 
   useEffect(() => {
-    if (notes.length >= 0) {
-      saveNotes(notes);
-    }
+    saveNotes(notes);
   }, [notes]);
 
   const changeMonth = (delta: number) => {
@@ -73,72 +72,108 @@ export default function Calendar() {
   const calendarDays = generateCalendarDays(currentDate);
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6">
-      <CalendarHeader
-        currentDate={currentDate}
-        onPreviousMonth={() => changeMonth(-1)}
-        onNextMonth={() => changeMonth(1)}
-      />
+    <div className="bg-white rounded-lg shadow-2xl overflow-hidden max-w-4xl mx-auto">
+      <SpiralBinding />
 
-      <div className="grid grid-cols-7 gap-2 mb-2">
-        {DAYS_OF_WEEK.map((day) => (
-          <div
-            key={day}
-            className="text-center font-semibold text-gray-600 py-2"
-          >
-            {day}
-          </div>
-        ))}
-      </div>
+      <HeroSection currentDate={currentDate} />
 
-      <CalendarGrid
-        calendarDays={calendarDays}
-        currentDate={currentDate}
-        selectedRange={selectedRange}
-        onDateClick={handleDateClick}
-      />
+      <div className="flex flex-col md:flex-row">
+        <div className="md:w-64 border-r border-gray-200">
+          <NotesSection
+            notes={notes}
+            selectedRange={selectedRange}
+            onAddNote={addNote}
+            onDeleteNote={deleteNote}
+            onClearSelection={clearSelection}
+          />
+        </div>
 
-      {selectedRange.start && (
-        <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-semibold text-gray-700 mb-1">
-                Selected Range:
-              </p>
-              <p className="text-gray-800">
-                {selectedRange.start.toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-                })}
-                {selectedRange.end && (
-                  <>
-                    {" "}
-                    →{" "}
-                    {selectedRange.end.toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
-                  </>
-                )}
-              </p>
-            </div>
+        <div className="flex-1 p-6">
+          <div className="flex items-center justify-between mb-6">
             <button
-              onClick={clearSelection}
-              className="px-3 py-1 text-sm bg-white border border-gray-300 rounded hover:bg-gray-50 transition"
+              onClick={() => changeMonth(-1)}
+              className="p-2 hover:bg-gray-100 rounded transition"
             >
-              Clear
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+
+            <div className="text-center">
+              <div className="text-2xl font-bold text-gray-800">
+                {MONTH_NAMES[currentDate.getMonth()]}
+              </div>
+              <div className="text-sm text-gray-500">
+                {currentDate.getFullYear()}
+              </div>
+            </div>
+
+            <button
+              onClick={() => changeMonth(1)}
+              className="p-2 hover:bg-gray-100 rounded transition"
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
             </button>
           </div>
-        </div>
-      )}
 
-      <NotesSection
-        notes={notes}
-        onAddNote={addNote}
-        onDeleteNote={deleteNote}
-      />
+          <div className="grid grid-cols-7 mb-2">
+            {DAYS_OF_WEEK.map((day, i) => (
+              <div
+                key={day}
+                className={`text-center text-xs font-semibold py-2 ${
+                  i >= 5 ? "text-blue-600" : "text-gray-600"
+                }`}
+              >
+                {day}
+              </div>
+            ))}
+          </div>
+
+          <CalendarGrid
+            calendarDays={calendarDays}
+            currentDate={currentDate}
+            selectedRange={selectedRange}
+            onDateClick={handleDateClick}
+          />
+
+          <div className="flex justify-center gap-4 mt-4 text-xs text-gray-600">
+            <div className="flex items-center gap-1">
+              <div className="w-4 h-4 border-2 border-blue-500 rounded" />
+              <span>Today</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <div className="w-4 h-4 bg-blue-500 rounded" />
+              <span>Selected</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <div className="w-4 h-4 bg-blue-100 rounded" />
+              <span>Range</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
