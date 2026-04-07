@@ -44,6 +44,16 @@ export default function Calendar() {
     setSelectedRange({ start: null, end: null });
   };
 
+  const addNote = (text: string) => {
+    const newNote: Note = {
+      id: Date.now().toString(),
+      text,
+      dateRange: selectedRange.start ? { ...selectedRange } : null,
+      createdAt: new Date(),
+    };
+    setNotes([newNote, ...notes]);
+  };
+
   const calendarDays = generateCalendarDays(currentDate);
 
   return (
@@ -108,7 +118,7 @@ export default function Calendar() {
         </div>
       )}
 
-      <NotesSection notes={notes} />
+      <NotesSection notes={notes} onAddNote={addNote} />
     </div>
   );
 }
