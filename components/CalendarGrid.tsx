@@ -35,13 +35,13 @@ export default function CalendarGrid({
             onClick={() => day && onDateClick?.(day)}
             className={`                                                                                                                                   
                 aspect-square flex items-center justify-center                                                                                               
-                rounded transition-all text-sm                                                                                                               
-                ${day ? "cursor-pointer hover:bg-gray-50" : ""}                                                                                              
+                rounded transition-all text-sm border border-transparent                                                                                     
+                ${day ? "cursor-pointer hover:bg-blue-100 hover:border-blue-300" : ""}                                                                       
                 ${day && !inRange ? "text-gray-700" : ""}                                                                                                    
                 ${day && isWeekend && !inRange ? "text-blue-600 font-semibold" : ""}                                                                         
                 ${isTodayDate && !inRange ? "ring-2 ring-blue-500 ring-inset" : ""}                                                                          
-                ${inRange && !isStart && !isEnd ? "bg-blue-50 text-gray-800" : ""}                                                                           
-                ${isStart || isEnd ? "bg-blue-600 text-white font-bold" : ""}                                                                                
+                ${inRange && !isStart && !isEnd ? "bg-blue-100 border-blue-300 text-gray-800" : ""}                                                          
+                ${isStart || isEnd ? "bg-blue-600 text-white font-bold hover:bg-blue-700" : ""}                                                              
                 ${!day ? "text-gray-300" : ""}                                                                                                               
               `}
           >

@@ -72,13 +72,13 @@ export default function Calendar() {
   const calendarDays = generateCalendarDays(currentDate);
 
   return (
-    <div className="bg-white rounded-lg shadow-2xl overflow-hidden max-w-4xl mx-auto">
+    <div className="bg-white rounded-lg shadow-2xl overflow-hidden max-w-4xl w-full h-[calc(100vh-4rem)] flex flex-col">
       <SpiralBinding />
 
       <HeroSection currentDate={currentDate} />
 
-      <div className="flex flex-col md:flex-row">
-        <div className="md:w-64 border-r border-gray-200">
+      <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
+        <div className="md:w-64 border-r border-gray-200 overflow-y-auto">
           <NotesSection
             notes={notes}
             selectedRange={selectedRange}
@@ -88,7 +88,7 @@ export default function Calendar() {
           />
         </div>
 
-        <div className="flex-1 p-6">
+        <div className="flex-1 p-4 md:p-6 overflow-y-auto">
           <div className="flex items-center justify-between mb-6">
             <button
               onClick={() => changeMonth(-1)}
