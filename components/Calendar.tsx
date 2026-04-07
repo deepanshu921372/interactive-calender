@@ -3,9 +3,10 @@
 import { useState } from "react";
 import { generateCalendarDays } from "@/lib/calendar-utils";
 import { DAYS_OF_WEEK } from "@/lib/constants";
-import { DateRange } from "@/lib/types";
+import { DateRange, Note } from "@/lib/types";
 import CalendarHeader from "./CalendarHeader";
 import CalendarGrid from "./CalendarGrid";
+import NotesSection from "./NotesSection";
 
 export default function Calendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -13,6 +14,7 @@ export default function Calendar() {
     start: null,
     end: null,
   });
+  const [notes, setNotes] = useState<Note[]>([]);
 
   const changeMonth = (delta: number) => {
     const newDate = new Date(currentDate);
@@ -98,13 +100,15 @@ export default function Calendar() {
             </div>
             <button
               onClick={clearSelection}
-              className="px-3 py-1 cursor-pointer text-sm bg-white border border-gray-300 rounded hover:bg-gray-50 transition"
+              className="px-3 py-1 text-sm bg-white border border-gray-300 rounded hover:bg-gray-50 transition"
             >
               Clear
             </button>
           </div>
         </div>
       )}
+
+      <NotesSection notes={notes} />
     </div>
   );
 }
