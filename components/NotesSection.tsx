@@ -16,6 +16,26 @@ export default function NotesSection({ notes, onAddNote }: NotesSectionProps) {
     }
   };
 
+  const formatDateRange = (note: Note) => {
+    if (!note.dateRange?.start) return null;
+
+    const start = note.dateRange.start.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+    });
+
+    if (!note.dateRange.end) {
+      return start;
+    }
+
+    const end = note.dateRange.end.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+    });
+
+    return `${start} - ${end}`;
+  };
+
   return (
     <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
       <h3 className="text-lg font-bold mb-3 text-gray-800">Notes</h3>
@@ -53,7 +73,12 @@ export default function NotesSection({ notes, onAddNote }: NotesSectionProps) {
               key={note.id}
               className="p-3 bg-white rounded border border-gray-200"
             >
-              <p className="text-gray-800">{note.text}</p>
+              <p className="text-gray-800 mb-1">{note.text}</p>
+              {note.dateRange?.start && (
+                <p className="text-xs text-blue-600 font-medium">
+                  📅 {formatDateRange(note)}
+                </p>
+              )}
             </div>
           ))
         )}
